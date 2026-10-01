@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.3
+
+Chinese homepage.
+
+- Added `README.zh-cn.md` and a language switcher link at the top of both READMEs.
+- The Marketplace does not switch READMEs by locale, so the switcher is a plain relative link; it works in the repository and in VS Code's extension details view.
+- The packager now also ships `README.<locale>.md`.
+
 ## 0.4.2
 
 Set the real publisher.

@@ -198,7 +198,14 @@ function walkRelative(dir, prefix = '') {
 /** 收集要放进 extension/ 的文件，规则与 .vscodeignore 保持一致。 */
 function collectExtensionFiles(root) {
 	const files = [];
-	for (const name of ['package.json', 'README.md', 'CHANGELOG.md']) {
+	const direct = ['package.json', 'README.md', 'CHANGELOG.md'];
+	// README.zh-cn.md 这类本地化版本
+	for (const entry of readdirSync(root, { withFileTypes: true })) {
+		if (entry.isFile() && /^README\..+\.md$/.test(entry.name)) {
+			direct.push(entry.name);
+		}
+	}
+	for (const name of direct) {
 		const full = path.join(root, name);
 		if (existsSync(full)) {
 			files.push({ name, data: readFileSync(full) });

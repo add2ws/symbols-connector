@@ -84,14 +84,21 @@ test('[Content_Types].xml 覆盖包内出现的扩展名', async () => {
 	}
 });
 
-test('README 里引用的图片都在包里', async () => {
+test('README 里引用的相对路径图片都在包里', async () => {
 	const { entries } = await unpack();
 	const names = entries.map((entry) => entry.name);
-	const readme = entries.find((entry) => entry.name === 'extension/README.md').data.toString('utf8');
-	const refs = Array.from(readme.matchAll(/!\[[^\]]*\]\(([^)]+)\)/g)).map((match) => match[1]);
-	assert.ok(refs.length > 0, 'README 里应至少有一张图');
-	for (const ref of refs) {
-		assert.ok(names.includes('extension/' + ref), 'README 引用的 ' + ref + ' 不在包里');
+	// 所有语言的 README 都要查
+	const readmes = entries.filter((entry) => /^extension\/README(\..+)?\.md$/.test(entry.name));
+	assert.ok(readmes.length > 0, '包里应有 README');
+
+	for (const readme of readmes) {
+		const text = readme.data.toString('utf8');
+		for (const match of text.matchAll(/!\[[^\]]*\]\(([^)]+)\)/g)) {
+			const ref = match[1];
+			// 绝对地址（https://…、data:…）由外部托管，不归包管；只校验相对路径确实进了包
+			if (/^[a-z][a-z0-9+.-]*:/i.test(ref) || ref.startsWith('//')) continue;
+			assert.ok(names.includes('extension/' + ref), readme.name + ' 引用的 ' + ref + ' 不在包里');
+		}
 	}
 });
 

@@ -1,3 +1,5 @@
+[English](README.md) | [简体中文](README.zh-cn.md)
+
 # Symbols Connector
 
 Draws connecting lines from the symbol under your cursor to its definition and every reference.
