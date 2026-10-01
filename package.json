@@ -3,9 +3,17 @@
   "displayName": "Symbols Connector",
   "description": "Draw connecting lines from the symbol under the cursor to its definition and every reference.",
   "icon": "docs/symbols-connector.png",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "publisher": "antenna-tec",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/add2ws/symbols-connector.git"
+  },
+  "homepage": "https://github.com/add2ws/symbols-connector#readme",
+  "bugs": {
+    "url": "https://github.com/add2ws/symbols-connector/issues"
+  },
   "engines": {
     "vscode": "^1.90.0"
   },

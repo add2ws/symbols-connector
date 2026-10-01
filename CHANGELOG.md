@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.1
+
+Linked the GitHub repository.
+
+- Added `repository`, `homepage` and `bugs` to `package.json`. The Marketplace listing now shows working **Repository** and **Issues** links, and `vsce publish` no longer warns about a missing repository field.
+
 ## 0.5.0
 
 Symbols Connector now only runs in programming languages.
