@@ -1,0 +1,9 @@
+{
+    "workbench.colorCustomizations": {},
+    "symbolsConnector.markBorderRadius": 8, // 引用高亮框圆角
+    "symbolsConnector.lineWidth": 1.5, // 粗细 1–8px
+    "symbolsConnector.lineStyle": "dashed", // solid / dashed / dotted / double
+    "symbolsConnector.palette": [
+        "#F5A623CC"
+    ]
+}

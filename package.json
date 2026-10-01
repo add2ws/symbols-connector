@@ -1,0 +1,197 @@
+{
+  "name": "symbols-connector",
+  "displayName": "Symbols Connector",
+  "description": "Draw connecting lines from the symbol under the cursor to its definition and every reference.",
+  "icon": "docs/symbols-connector.png",
+  "version": "0.4.2",
+  "publisher": "antenna-tec",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Visualization",
+    "Programming Languages",
+    "Other"
+  ],
+  "keywords": [
+    "symbols",
+    "references",
+    "connector",
+    "graph",
+    "definition",
+    "navigation"
+  ],
+  "main": "./out/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "build": "node scripts/build.mjs",
+    "test": "node --test test/",
+    "package": "node scripts/package.mjs"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0 || ^6.0.0"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "symbolsConnector.toggle",
+        "title": "Toggle connectors",
+        "category": "Symbols Connector"
+      },
+      {
+        "command": "symbolsConnector.refresh",
+        "title": "Re-resolve current symbol",
+        "category": "Symbols Connector"
+      },
+      {
+        "command": "symbolsConnector.showGraph",
+        "title": "Open reference graph",
+        "category": "Symbols Connector"
+      },
+      {
+        "command": "symbolsConnector.copyReport",
+        "title": "Copy reference list to clipboard",
+        "category": "Symbols Connector"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "symbolsConnector.showGraph",
+        "key": "ctrl+alt+g",
+        "mac": "cmd+alt+g",
+        "when": "editorTextFocus"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "symbolsConnector.showGraph",
+          "group": "navigation@30",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "symbolsConnector.refresh",
+          "group": "navigation@31",
+          "when": "editorTextFocus"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Symbols Connector",
+      "properties": {
+        "symbolsConnector.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable or disable the connector rendering."
+        },
+        "symbolsConnector.autoTrigger": {
+          "type": "boolean",
+          "default": true,
+          "description": "Resolve the symbol under the cursor as it moves. When off, resolve only via commands."
+        },
+        "symbolsConnector.debounceMs": {
+          "type": "number",
+          "default": 220,
+          "minimum": 0,
+          "maximum": 3000,
+          "description": "Delay in milliseconds before resolving after the cursor moves."
+        },
+        "symbolsConnector.includeDeclaration": {
+          "type": "boolean",
+          "default": true,
+          "description": "Also ask the language server for declarations (e.g. prototypes in C/C++ headers). Definitions always take part."
+        },
+        "symbolsConnector.maxRelated": {
+          "type": "number",
+          "default": 60,
+          "minimum": 1,
+          "maximum": 500,
+          "description": "Maximum number of related positions to render at once."
+        },
+        "symbolsConnector.editorLines": {
+          "type": "boolean",
+          "default": true,
+          "description": "Draw connector lines inside the editor."
+        },
+        "symbolsConnector.railSpacing": {
+          "type": "number",
+          "default": 2,
+          "minimum": 1,
+          "maximum": 8,
+          "description": "Column spacing between parallel rails. Only used when maxRailLanes is greater than 1."
+        },
+        "symbolsConnector.maxRailLanes": {
+          "type": "number",
+          "default": 1,
+          "minimum": 1,
+          "maximum": 16,
+          "description": "How many parallel rails to use. Default 1 keeps every connector flush with the left edge of the text area; increase to fan them out to the right."
+        },
+        "symbolsConnector.minRailColumn": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 40,
+          "description": "Base column for the rails. 0 = left edge of the text area."
+        },
+        "symbolsConnector.showIndexLabels": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show index labels: 0 = definition/declaration, the rest numbered in code order."
+        },
+        "symbolsConnector.autoOpenGraph": {
+          "type": "boolean",
+          "default": false,
+          "description": "Open the reference graph automatically after resolving."
+        },
+        "symbolsConnector.previewFiles": {
+          "type": "number",
+          "default": 12,
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Maximum number of files to read source lines from for the graph previews."
+        },
+        "symbolsConnector.lineWidth": {
+          "type": "number",
+          "default": 1.5,
+          "minimum": 1,
+          "maximum": 8,
+          "description": "Line thickness in px (decimals allowed, e.g. 1.5), applied to rails and stubs."
+        },
+        "symbolsConnector.lineStyle": {
+          "type": "string",
+          "enum": [
+            "solid",
+            "dashed",
+            "dotted",
+            "double"
+          ],
+          "default": "dashed",
+          "description": "Line style."
+        },
+        "symbolsConnector.markBorderRadius": {
+          "type": "number",
+          "default": 3,
+          "minimum": 0,
+          "maximum": 12,
+          "description": "Corner radius in px for the reference highlight box. Does not affect the connector lines."
+        },
+        "symbolsConnector.palette": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "#F5A623CC"
+          ],
+          "description": "Line colours, assigned to references in order. Default is a single colour; add more to tell references apart by colour. Supports #RRGGBBAA / rgba()."
+        }
+      }
+    }
+  }
+}

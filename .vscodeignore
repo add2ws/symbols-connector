@@ -1,0 +1,9 @@
+**/*.ts
+**/*.map
+types/**
+scripts/**
+test/**
+.vscode/**
+.gitignore
+tsconfig.json
+out/**/*.map
