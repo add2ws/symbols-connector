@@ -126,11 +126,12 @@ function createEvent() {
 	return subscribe;
 }
 
-function createTextDocument(uri, lines, version) {
+function createTextDocument(uri, lines, version, languageId) {
 	const text = lines.join('\n');
 	return {
 		uri,
 		version: version === undefined ? 1 : version,
+		languageId: languageId === undefined ? 'typescript' : languageId,
 		lineCount: lines.length,
 		getText: () => text,
 		lineAt: (line) => ({ lineNumber: line, text: lines[line] === undefined ? '' : lines[line] }),

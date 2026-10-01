@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.5.0
+
+Symbols Connector now only runs in programming languages.
+
+- Previously the extension activated on `onStartupFinished` and resolved on every cursor move — including in Markdown, JSON, YAML and plain text. Those languages have no references, so all you got was a lone index label on the symbol under the cursor: pure noise.
+- `activationEvents` is now a list of `onLanguage:<id>` entries covering 38 mainstream programming languages. The extension is not even loaded in other files.
+- A runtime guard re-checks `document.languageId` on every resolve, so switching from a `.ts` file to a `.md` file stops the connectors instead of leaving stale ones behind.
+- **Open reference graph** and **Copy reference list** now say the language is not supported instead of claiming no symbol was found.
+- The language list lives in `src/core/languages.ts`; a test asserts the manifest's `onLanguage:` entries and the code constant stay in sync, and that markdown / plaintext / json / yaml / xml / html / css / log are excluded.
+- `README.zh-cn.md` is now the source of truth and `README.md` is its translation.
+
 ## 0.4.3
 
 Chinese homepage.

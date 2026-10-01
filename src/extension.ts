@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import type { ConnectorOptions } from './core/config';
 import { DEFAULT_OPTIONS, normalizeOptions } from './core/config';
 import { planConnectors } from './core/geometry';
+import { isSupportedLanguage } from './core/languages';
 import { mergeAnchors } from './core/merge';
 import { renderTextReport } from './core/report';
 import { isBlankLine, leadingWhitespaceChars } from './core/text';
@@ -68,6 +69,12 @@ function activeEditorKey(): string | undefined {
 async function runResolve(force: boolean): Promise<void> {
 	const editor = vscode.window.activeTextEditor;
 	if (!editor || !enabled || !options.enabled) {
+		clearAll();
+		return;
+	}
+	// 只在主流编程语言里工作。markdown / 纯文本 / 配置格式的语言服务没有 references，
+	// 画出来只剩一个孤零零的起点序号，纯属噪音。
+	if (!isSupportedLanguage(editor.document.languageId)) {
 		clearAll();
 		return;
 	}
@@ -150,6 +157,18 @@ async function revealLocation(uriString: string, line: number, char: number): Pr
 	}
 }
 
+/** 当前编辑器的语言是否受支持；不支持时给出提示并返回 false。 */
+function checkLanguage(): boolean {
+	const editor = vscode.window.activeTextEditor;
+	if (!editor || isSupportedLanguage(editor.document.languageId)) {
+		return true;
+	}
+	void vscode.window.showInformationMessage(
+		'Symbols Connector is not enabled for "' + editor.document.languageId + '" files.'
+	);
+	return false;
+}
+
 async function ensureModel(): Promise<ConnectorModel | undefined> {
 	if (!lastModel) {
 		await runResolve(true);
@@ -158,6 +177,9 @@ async function ensureModel(): Promise<ConnectorModel | undefined> {
 }
 
 async function showGraph(): Promise<void> {
+	if (!checkLanguage()) {
+		return;
+	}
 	const model = await ensureModel();
 	if (!model) {
 		void vscode.window.showInformationMessage('No symbol found. Put the cursor on an identifier and try again.');
@@ -167,6 +189,9 @@ async function showGraph(): Promise<void> {
 }
 
 async function copyReport(): Promise<void> {
+	if (!checkLanguage()) {
+		return;
+	}
 	const model = await ensureModel();
 	if (!model) {
 		void vscode.window.showInformationMessage('No symbol found. Put the cursor on an identifier and try again.');

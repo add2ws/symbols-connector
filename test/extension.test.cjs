@@ -151,3 +151,25 @@ test('释放 subscriptions 后事件监听被清空', async () => {
 	assert.equal(api.events.configurationChanged.count(), 0);
 	assert.equal(api.state.registeredCommands.size, 0);
 });
+
+test('非编程语言（markdown）不画任何装饰', async () => {
+	const { api, editor, context, extension } = setup();
+	editor.document.languageId = 'markdown';
+	extension.activate(context);
+	await tick(80);
+	assert.equal(editor.decorations.length, 0, 'markdown 不应产生任何装饰');
+	assert.ok(api.state.commandCalls.every((call) => !call.command.includes('Provider')), 'markdown 不应请求语言服务');
+});
+
+test('不受支持的语言调用 showGraph 会给出提示', async () => {
+	const { api, editor, context, extension } = setup();
+	editor.document.languageId = 'plaintext';
+	extension.activate(context);
+	await tick(80);
+	await api.state.registeredCommands.get('symbolsConnector.showGraph')();
+	assert.equal(api.state.webviewPanels.length, 0, '不应打开面板');
+	assert.ok(
+		api.state.messages.some((message) => message.includes('not enabled for "plaintext"')),
+		'应提示该语言不受支持'
+	);
+});

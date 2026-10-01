@@ -109,3 +109,22 @@ test('清单里的 icon 也在包里', async () => {
 	assert.equal(typeof manifest.icon, 'string', 'package.json 应声明 icon');
 	assert.ok(names.includes('extension/' + manifest.icon), '清单声明的 icon ' + manifest.icon + ' 不在包里');
 });
+
+test('清单里的 onLanguage 列表与代码常量一致', async () => {
+	const { entries } = await unpack();
+	const manifest = JSON.parse(entries.find((entry) => entry.name === 'extension/package.json').data.toString('utf8'));
+	const fromManifest = (manifest.activationEvents || [])
+		.filter((event) => event.startsWith('onLanguage:'))
+		.map((event) => event.slice('onLanguage:'.length))
+		.sort();
+	const { SUPPORTED_LANGUAGES } = require('../out/core/languages.js');
+	assert.deepEqual(fromManifest, SUPPORTED_LANGUAGES.slice().sort(), '两处的语言清单必须一致，否则白名单会悄悄失效');
+	assert.ok(fromManifest.length > 20, '主流编程语言应该有几十项');
+});
+
+test('markdown / 纯文本不在语言清单里', async () => {
+	const { SUPPORTED_LANGUAGES } = require('../out/core/languages.js');
+	for (const id of ['markdown', 'plaintext', 'json', 'yaml', 'xml', 'html', 'css', 'log']) {
+		assert.ok(!SUPPORTED_LANGUAGES.includes(id), id + ' 不应参与连线');
+	}
+});
