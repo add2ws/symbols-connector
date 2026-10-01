@@ -2,7 +2,7 @@
 
 Draws connecting lines from the symbol under your cursor to its definition and every reference.
 
-![Symbols Connector](docs/screenshot.png)
+![Symbols Connector](https://raw.githubusercontent.com/add2ws/symbols-connector/refs/heads/main/docs/screenshot.png)
 
 ## Features
 
