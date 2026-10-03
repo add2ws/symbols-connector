@@ -3,7 +3,7 @@
   "displayName": "Symbols Connector",
   "description": "Draw connecting lines from the symbol under the cursor to its definition and every reference.",
   "icon": "image/symbols-connector.png",
-  "version": "0.5.2",
+  "version": "0.5.4",
   "publisher": "antenna-tec",
   "license": "MIT",
   "repository": {

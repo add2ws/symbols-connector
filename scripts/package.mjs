@@ -213,7 +213,7 @@ function collectExtensionFiles(root) {
 	}
 	const groups = [
 		{ dir: path.join(root, 'out'), keep: (rel) => rel.endsWith('.js') },
-		{ dir: path.join(root, 'docs'), keep: (rel) => rel.endsWith('.svg') || rel.endsWith('.png') }
+		{ dir: path.join(root, 'image'), keep: (rel) => rel.endsWith('.svg') || rel.endsWith('.png') }
 	];
 	for (const group of groups) {
 		if (!existsSync(group.dir)) continue;
