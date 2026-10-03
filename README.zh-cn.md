@@ -5,7 +5,7 @@
 用连接线直观地展示当前文件中某符号的所有引用和定义
 
 
-![Symbols Connector](https://raw.githubusercontent.com/add2ws/symbols-connector/refs/heads/main/docs/screenshot.png)
+![Symbols Connector](https://raw.githubusercontent.com/add2ws/symbols-connector/refs/heads/main/image/screenshot.png)
 
 ## 功能
 

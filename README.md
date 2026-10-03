@@ -4,7 +4,7 @@
 
 Show every reference and the definition of a symbol in the current file as connecting lines.
 
-![Symbols Connector](https://raw.githubusercontent.com/add2ws/symbols-connector/refs/heads/main/docs/screenshot.png)
+![Symbols Connector](https://raw.githubusercontent.com/add2ws/symbols-connector/refs/heads/main/image/screenshot.png)
 
 ## Features
 
