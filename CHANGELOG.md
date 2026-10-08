@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.5.5
+
+Switched to the official VS Code toolchain.
+
+- **Fixes the missing icon on the Marketplace page.** The hand-written `extension.vsixmanifest` never declared `Microsoft.VisualStudio.Services.Icons.Default`, so the gallery had no icon asset for the extension — while VS Code itself reads `package.json`'s `icon`, which is why the icon only appeared after installing. `vsce` generates the manifest correctly and additionally adds the repository / get-started / support / learn links, `ExecutesCode`, `ExtensionKind`, `Content.Pricing` and other properties that were missing.
+- Packaging is now `vsce package` instead of a hand-written ZIP writer, and compilation is `tsc -p ./` instead of an in-process TypeScript loader. `scripts/build.mjs` and `scripts/package.mjs` are gone; `@vscode/vsce` is a devDependency.
+- `vscode:prepublish` now cleans `out/` before compiling, so a renamed or deleted source file can no longer leave an orphaned `.js` inside the VSIX.
+- `.vscodeignore` additionally excludes `pnpm-lock.yaml`, `pnpm-workspace.yaml`, `.codemap/` and `*.vsix`, which the previous packaging step was silently shipping.
+- The packaging test now runs `vsce ls` and asserts on the real file list.
+- `test` script uses an explicit glob: `node --test test/` no longer accepts a bare directory on Node 26.
+- Added the missing `LICENSE` (MIT) — `vsce` now ships it as the `Content.License` asset, so the Marketplace listing gets a license link.
+
 ## 0.5.1
 
 Linked the GitHub repository.

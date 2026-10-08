@@ -1,3 +1,4 @@
+# 源码与类型声明不进包（out/ 里已有编译产物）
 **/*.ts
 **/*.map
 types/**
@@ -6,4 +7,12 @@ test/**
 .vscode/**
 .gitignore
 tsconfig.json
-out/**/*.map
+
+# 依赖与工作区配置：安装时由 VS Code 自行处理，不需要随包分发
+pnpm-lock.yaml
+pnpm-workspace.yaml
+package-lock.json
+
+# 本地工具状态与打包产物
+.codemap/**
+*.vsix

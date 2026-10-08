@@ -3,7 +3,7 @@
   "displayName": "Symbols Connector",
   "description": "Draw connecting lines from the symbol under the cursor to its definition and every reference.",
   "icon": "image/symbols-connector.png",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "publisher": "antenna-tec",
   "license": "MIT",
   "repository": {
@@ -72,13 +72,15 @@
     "onLanguage:sql"
   ],
   "scripts": {
+    "vscode:prepublish": "npm run clean && npm run compile",
+    "clean": "node -e \"require('fs').rmSync('out',{recursive:true,force:true})\"",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "build": "node scripts/build.mjs",
-    "test": "node --test test/",
-    "package": "node scripts/package.mjs"
+    "test": "node --test \"test/*.test.cjs\"",
+    "package": "vsce package"
   },
   "devDependencies": {
+    "@vscode/vsce": "^4.0.0",
     "typescript": "^5.6.0 || ^6.0.0"
   },
   "contributes": {
